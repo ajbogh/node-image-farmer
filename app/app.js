@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var thumbs = require('../lib/connect-thumbs')
+var thumbs = require('../lib/node-image-farmer')
 
 var smartCrop = true;
 var rootPath = "/content/smart";
@@ -12,7 +12,7 @@ app.use(thumbs({
     useIM: false, //false use ImageMagick
     ttl : 7200, //7200 HTTP header TTL for client cache = 2 hours
     tmpCacheTTL : 86400, //86400 seconds = 24 hours
-    tmpDir : "/tmp/connect-thumbs",
+    tmpDir : "/tmp/node-image-farmer",
     allowedExtensions : ['png', 'jpg'],
     rootPath: rootPath,
     presets: {
@@ -48,5 +48,5 @@ var server = app.listen(3000, function () {
     var host = server.address().address;
     var port = server.address().port;
 
-    console.log('connect-thumbs app listening at http://%s:%s%s', host, port, rootPath);
+    console.log('node-image-farmer app listening at http://%s:%s%s', host, port, rootPath);
 });

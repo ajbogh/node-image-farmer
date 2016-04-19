@@ -1,1 +1,1 @@
-module.exports = require('./lib/connect-thumbs');
+module.exports = require('./lib/node-image-farmer');
