@@ -64,10 +64,10 @@ If you have all the prerequisites installed you can launch a demo with:
 > SMARTCROP=1 npm run example # for content-aware cropping
 ```
 
-And then open your browser at the [following URL](http://localhost:3000/thumbs/irakli/images/aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=.jpg): 
+And then open your browser at the [following URL](http://localhost:3000/thumbs/irakli/?base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=):
 
 ```
-http://localhost:3000/thumbs/irakli/images/aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=.jpg
+http://localhost:3000/thumbs/irakli/?base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=
 ```
 
 You can see on the following diagram what simple (on the left), and smart (on the right)
@@ -85,9 +85,25 @@ Photo Credit: [Andrew Schmidt](http://www.publicdomainpictures.net/view-image.ph
     
 when configured with defaults, and if you have your node process running at yourdomain.com, a request such as:
 
-    http://yourdomain.com/thumbs/medium/images/aHR0cDovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zLzYvNjYvRWluc3RlaW5fMTkyMV9ieV9GX1NjaG11dHplci5qcGc=.jpg
+    http://yourdomain.com/thumbs/medium/?base64=aHR0cDovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zLzYvNjYvRWluc3RlaW5fMTkyMV9ieV9GX1NjaG11dHplci5qcGc=
     
 will display Einstein's photo from Wikipedia as a width: 300 (and proportionally resized height) thumbnail.
+
+Another example uses the file system to resize a file within the app/images folder. In a production environment this folder would
+be a symlink to wherever the images are located.
+
+```
+http://localhost:3000/thumbs/irakli/crops-smart.jpg
+```
+
+You may also override a preset by supplying a width, height, and quality in the query strings. Each of these are optional and
+distinct properties. For instance, by specifying the width you can override the preset's width without affecting the height or quality properties.
+
+```
+http://localhost:3000/thumbs/default/crops-smart.jpg?height=300&width=200&quality=85
+http://localhost:3000/thumbs/default/crops-smart.jpg?h=300&w=200&q=85
+```
+
 
 This is because:
  
@@ -116,6 +132,7 @@ and must call callback, upon completion, with following syntax:
     , "tmpDir" : "/tmp/mynodethumbnails"
     , "decodeFn" : someModule.loadImageUrlFromDbById
     , "allowedExtensions" : ['png', 'jpg']
+    , "rootPath": "/thumbs"
     , "presets" : {
         small : {
           width: 120
@@ -135,7 +152,7 @@ and must call callback, upon completion, with following syntax:
 
 where:
 
- * smartCrop - enables experiemntal, content-aware cropping based on: [Smartcrop.js](https://github.com/jwagner/smartcrop.js/).
+ * smartCrop - enables experimental, content-aware cropping based on: [Smartcrop.js](https://github.com/jwagner/smartcrop.js/).
    This is `false` by default, until Smartcrop.js matures, but will become the default option as soon as
    there is a stable release of that project.
  * useIM - if you have trouble installing GraphicsMagick or prefer ImageMagick for any reason,
