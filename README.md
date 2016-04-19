@@ -1,4 +1,6 @@
-# connect-thumbs
+# node-image-farmer
+
+* Original connect-thumbs code by [Irakli Nadareishvili](https://github.com/inadarei), modified by [Allan Bogh](https://github.com/ajbogh)
 
 [![NPM Version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
