@@ -1,67 +1,77 @@
 {
-    "author": {
-        "name": "Irakli Nadareishvili",
-        "url": "http://freshblurbs.com"
-    },
-    "name": "connect-thumbs",
-    "description": "Image thumbnailing middleware for Connect.",
-    "keywords": [
-        "thumbnail",
-        "imagemagick",
-        "thumb",
-        "photos",
-        "crop",
-        "smartcrop",
-        "content-aware",
-        "resize",
-        "connect",
-        "middleware",
-        "express"
-    ],
-    "version": "0.4.0",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:inadarei/connect-thumbs.git"
-    },
-    "main": "./index.js",
-    "license": "MIT",
-    "dependencies": {
-        "async": "0.1.x",
-        "gm": "^1.20.0",
-        "lockfile": "^1.0.1",
-        "lodash": "^3.10.1",
-        "mkdirp": "0.x",
-        "moment": "1.7.x",
-        "pause": "0.x",
-        "request": "2.x",
-        "send": "0.x"
-    },
-    "devDependencies": {
-        "express": "^4.13.3",
-        "connect": "*",
-        "after": "^0.8.1",
-        "istanbul": "^0.3.2",
-        "mocha": "^2.1.0",
-        "chai": "^1.9.1",
-        "should": "^4.4.4",
-        "jshint": "^2.5.x"
-    },
-    "scripts": {
-        "app": "node app/app.js",
-        "prepublish": "npm prune",
-        "test": "mocha --reporter spec --bail --check-leaks test/",
-        "pretest": "jshint lib",
-        "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
-        "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
-        "install-ubuntu-deps": "apt-get install imagemagick graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
-        "install-mac-deps": "brew install imagemagick --with-webp && xcode-select --install && brew install pkgconfig pixman libjpeg giflib cairo",
-        "install-redhat-deps": "yum install ImageMagick GraphicsMagick"
-    },
-    "optionalDependencies": {
-        "canvas": "^1.2.10",
-        "smartcrop": "0.0.1"
-    },
-    "engines": {
-        "node": "*"
+  "author": {
+    "name": "Allan Bogh",
+    "email" : "ajbogh@allanbogh.com",
+    "url": "http://allanbogh.com"
+  },
+  "name": "connect-thumbs",
+  "description": "Image thumbnailing middleware based on connect-thumb. Adds ability to retrieve files from the filesystem.",
+  "keywords": [
+    "thumbnail",
+    "imagemagick",
+    "thumb",
+    "photos",
+    "crop",
+    "smartcrop",
+    "content-aware",
+    "resize",
+    "connect",
+    "middleware",
+    "express"
+  ],
+  "version": "0.4.0",
+  "contributors": [
+    {
+      "name" : "Irakli Nadareishvili",
+      "url" : "http://freshblurbs.com"
     }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ajbogh/node-image-farmer.git"
+  },
+  "main": "./index.js",
+  "license": "MIT",
+  "dependencies": {
+    "async": "0.1.x",
+    "fs-extra": "^0.28.0",
+    "gm": "^1.20.0",
+    "image-size": "^0.5.0",
+    "lockfile": "^1.0.1",
+    "lodash": "^3.10.1",
+    "mkdirp": "0.x",
+    "moment": "1.7.x",
+    "pause": "0.x",
+    "request": "2.x",
+    "send": "0.x"
+  },
+  "devDependencies": {
+    "after": "^0.8.1",
+    "chai": "^1.9.1",
+    "connect": "*",
+    "express": "^4.13.3",
+    "istanbul": "^0.3.2",
+    "jshint": "^2.5.x",
+    "mocha": "^2.1.0",
+    "request-image-size": "^1.2.2",
+    "should": "^4.4.4"
+  },
+  "scripts": {
+    "app": "node app/app.js",
+    "prepublish": "npm prune",
+    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "pretest": "jshint lib",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "install-ubuntu-deps": "apt-get install imagemagick graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
+    "install-mac-deps": "brew install imagemagick --with-webp && xcode-select --install && brew install pkgconfig pixman libjpeg giflib cairo",
+    "install-redhat-deps": "yum install ImageMagick GraphicsMagick"
+  },
+  "optionalDependencies": {
+    "canvas": "^1.2.10",
+    "smartcrop": "0.0.1"
+  },
+  "engines": {
+    "node": "*"
+  }
 }

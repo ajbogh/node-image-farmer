@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var thumbs = require('../lib/node-image-farmer')
+var thumbs = require('../lib/node-image-farmer');
 
 var smartCrop = true;
 var rootPath = "/content/smart";
