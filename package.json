@@ -1,10 +1,10 @@
 {
   "author": {
     "name": "Allan Bogh",
-    "email" : "ajbogh@allanbogh.com",
+    "email": "ajbogh@allanbogh.com",
     "url": "http://allanbogh.com"
   },
-  "name": "connect-thumbs",
+  "name": "node-image-farmer",
   "description": "Image thumbnailing middleware based on connect-thumb. Adds ability to retrieve files from the filesystem.",
   "keywords": [
     "thumbnail",
@@ -22,8 +22,8 @@
   "version": "0.4.0",
   "contributors": [
     {
-      "name" : "Irakli Nadareishvili",
-      "url" : "http://freshblurbs.com"
+      "name": "Irakli Nadareishvili",
+      "url": "http://freshblurbs.com"
     }
   ],
   "repository": {
@@ -41,6 +41,7 @@
     "lodash": "^3.10.1",
     "mkdirp": "0.x",
     "moment": "1.7.x",
+    "node-mime": "^1.0.0",
     "pause": "0.x",
     "request": "2.x",
     "send": "0.x"

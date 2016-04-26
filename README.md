@@ -9,16 +9,16 @@
 Image thumbnailing middleware for Connect.js/Express.js that integrates with content-aware
 cropping provided by [Smartcrop.js](https://github.com/jwagner/smartcrop.js/)
 
-Connect-thumbs implements the boilerplate code for creating thumbnails of large images in a standard, 
+node-image-farmer implements the boilerplate code for creating thumbnails of large images in a standard,
 Connect.js-complient way, allowing sensible defaults and high degree of customization.
 
 ## Installation
 
-    $ npm install connect-thumbs --save
+    $ npm install node-image-farmer --save
     
 ### Installing Dependencies    
 
-Connect-thumbs can use `GraphicsMagick` or `Imagemagick` for image manipulation 
+node-image-farmer can use `GraphicsMagick` or `Imagemagick` for image manipulation
 (see: [Configuration](##configuration)). 
 
 Make sure your system has one of these packages properly installed, 
@@ -59,8 +59,8 @@ On other platforms, you can consult: [Cairo documentation](http://cairographics.
 If you have all the prerequisites installed you can launch a demo with:
 
 ```
-> git clone https://github.com/inadarei/connect-thumbs.git
-> cd connect-thumbs
+> git clone https://github.com/ajbogh/node-image-farmer.git
+> cd node-image-farmer
 > npm install
 > npm run example # for simple cropping
 > SMARTCROP=1 npm run example # for content-aware cropping
@@ -75,14 +75,14 @@ http://localhost:3000/thumbs/irakli/?base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0
 You can see on the following diagram what simple (on the left), and smart (on the right)
  crops produce compared to the original (center)
  
- ![](https://raw.githubusercontent.com/inadarei/connect-thumbs/master/example/crops-smart.jpg)
+ ![](https://raw.githubusercontent.com/inadarei/node-image-farmer/master/example/crops-smart.jpg)
 
 
 Photo Credit: [Andrew Schmidt](http://www.publicdomainpictures.net/view-image.php?image=2514&picture=seagull&large=1) (Public Domain)
     
 ## Connect.js/Express.js Usage
 
-    var thumbs = require('connect-thumbs');
+    var thumbs = require('node-image-farmer');
     app.use(thumbs());
     
 when configured with defaults, and if you have your node process running at yourdomain.com, a request such as:
@@ -164,7 +164,7 @@ where:
  * tmpDir - is the Node-writable temp folder where file operations will be performed. Defaults to: `/tmp/nodethumbnails`. 
    You may want to periodically clean-up that folder.
  * decodeFn - custom decoder function. Defaults to one that decodes base64-encoded full URLs.
- * allowedExtensions - file (path) extensions that connect-thumbs will try to thumbnail. Defaults to: jpg, jpeg, gif and png.
+ * allowedExtensions - file (path) extensions that node-image-farmer will try to thumbnail. Defaults to: jpg, jpeg, gif and png.
  * presets - json object describing various image presets. You can indicate width, height and quality 
    level for each. Quality adjusts image compression level and its value ranges from 0 to 100 (best).
     
@@ -174,7 +174,7 @@ where:
 ## Serving Behind a Web Server
     
 *ATTENTION*: in typical web setups, static content such as images is often served by a web-server, never allowing 
-requests to *.jpg, *.png etc. to reach Node process. If you want to use connect-thumbs, obviously you must allow
+requests to *.jpg, *.png etc. to reach Node process. If you want to use node-image-farmer, obviously you must allow
 paths to thumbnailed images to pass through to Node. Please add appropriate exception to you web server configuration. 
 For Nginx, your configuration may look something like the following:
 
@@ -196,7 +196,7 @@ For Nginx, your configuration may look something like the following:
 ```
 
 Alternatively, sometimes connect-static is used to serve static content. If you do that, please make sure that 
-connect-static fires *after* connect-thumbs does.
+connect-static fires *after* node-image-farmer does.
 
 ## Performance and Scalability
 
@@ -205,7 +205,7 @@ Neither may be your custom decodeFn function if it is doing a database lookup fo
 production setup it is highly recommended to put thubmnailing of images behind some sort of proxy/cache. 
 Viable options include:
 
-- Enabling the integrated disk-based cache provided by Connect-Thumbs. You can do this by passing custom `tmpCacheTTL`
+- Enabling the integrated disk-based cache provided by node-image-farmer. You can do this by passing custom `tmpCacheTTL`
 configuration variable when initializing Thumbs. This variable is set in seconds and is 0 by default. Setting it 
 to values greater than 0 enables caching.
 - Put [Varnish](https://www.varnish-cache.org/) in front of the thumbnail URLs
@@ -215,10 +215,3 @@ to values greater than 0 enables caching.
 ## License
 
 [MIT](LICENSE)
-
-[npm-image]: https://img.shields.io/npm/v/connect-thumbs.svg
-[npm-url]: https://npmjs.org/package/connect-thumbs
-[travis-image]: https://travis-ci.org/inadarei/connect-thumbs.svg
-[travis-url]: https://travis-ci.org/inadarei/connect-thumbs.svg
-[codacy-image]: https://api.codacy.com/project/badge/56d8bef2586d43dc8e76034cae022d64
-[codacy-url]: https://www.codacy.com/app/irakli/connect-thumbs
