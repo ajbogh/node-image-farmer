@@ -2,10 +2,6 @@
 
 * Original connect-thumbs code by [Irakli Nadareishvili](https://github.com/inadarei), modified by [Allan Bogh](https://github.com/ajbogh)
 
-[![NPM Version][npm-image]][npm-url]
-[![Build Status][travis-image]][travis-url]
-[![Codacy Status][codacy-image]][codacy-url]
-
 Image thumbnailing middleware for Connect.js/Express.js that integrates with content-aware
 cropping provided by [Smartcrop.js](https://github.com/jwagner/smartcrop.js/)
 
