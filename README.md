@@ -10,9 +10,22 @@ Connect.js-complient way, allowing sensible defaults and high degree of customiz
 
 ## Installation
 
+### Using your own API
+
     $ npm install node-image-farmer --save
+    $ npm run install-ubuntu-deps
+    $ # npm run install-mac-deps (untested)
+    $ # npm run install-redhat-deps (untested)
+
+### Using the provided API
     
-### Installing Dependencies    
+    $ git clone git@github.com:ajbogh/node-image-farmer.git
+    $ npm install
+    $ npm run install-ubuntu-deps
+    $ # npm run install-mac-deps (untested)
+    $ # npm run install-redhat-deps (untested)
+    
+### Installing Dependencies (if "npm run install-XYZ-deps" doesn't work)   
 
 node-image-farmer can use `GraphicsMagick` or `Imagemagick` for image manipulation
 (see: [Configuration](##configuration)). 
@@ -50,40 +63,96 @@ that you have the latest brew upgrade.
 
 On other platforms, you can consult: [Cairo documentation](http://cairographics.org/download/).
 
+## Serving local images
+
+You can serve images from your own server by creating a symlink under app/images
+
+```
+$ cd app
+$ ln -s images /path/to/your/images/folder
+```
+
+You can navigate your images folder similar to how you normally would with a URL:
+
+```
+http://localhost:3000/content/smart/small/my/subfolder/myImage.jpg
+```
+
+## API
+
+*Port*: 3000 (default)
+*Preset*: [full, small, medium, hero, irakli] (default, configurable)
+*Width*: w or width (query string, optional)
+*Height*: h or height (query string, optional)
+*Quality*: q or quality (query string, optional, 1-100 default 95)
+
+All images by default are served from port 3000 (configurable) and reside in the /content/smart subfolder
+```
+http://localhost:3000/content/smart
+```
+
+Presets are defined in the configuration, but default presets are 'irakli', 'small', 'medium', and 'hero'. 
+If no preset matches or you would like the full image, you may use 'full' and optionally define width and height parameters.
+
+```
+http://localhost:3000/content/smart/small/myImage.jpg
+http://localhost:3000/content/smart/medium/myImage.jpg
+http://localhost:3000/content/smart/full/myImage.jpg
+```
+
+You may override preset crops with the w, width, h, or height parameters. You may also override the quality with the 'q' or 'quality' parameter.
+
+```
+http://localhost:3000/content/smart/small/myImage.jpg?w=150&h=100
+http://localhost:3000/content/smart/medium/myImage.jpg?width=150&height=100
+http://localhost:3000/content/smart/full/myImage.jpg?w=150&height=100&quality=50
+http://localhost:3000/content/smart/full/myImage.jpg?q=2
+```
+
 ## Running an Example
 
 If you have all the prerequisites installed you can launch a demo with:
 
 ```
-> git clone https://github.com/ajbogh/node-image-farmer.git
-> cd node-image-farmer
-> npm install
-> npm run example # for simple cropping
-> SMARTCROP=1 npm run example # for content-aware cropping
+$ npm run app
 ```
 
-And then open your browser at the [following URL](http://localhost:3000/thumbs/irakli/?base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=):
+And then open your browser at the [following URL](http://localhost:3000/content/smart/full/?base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=):
 
 ```
-http://localhost:3000/thumbs/irakli/?base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=
+http://localhost:3000/content/smart/full/?base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=
 ```
 
 You can see on the following diagram what simple (on the left), and smart (on the right)
  crops produce compared to the original (center)
  
- ![](https://raw.githubusercontent.com/inadarei/node-image-farmer/master/example/crops-smart.jpg)
-
+ ![](https://raw.githubusercontent.com/inadarei/connect-thumbs/master/example/crops-smart.jpg)
 
 Photo Credit: [Andrew Schmidt](http://www.publicdomainpictures.net/view-image.php?image=2514&picture=seagull&large=1) (Public Domain)
+
+### Smart Cropping
+
+200x400 remote image
+```
+http://localhost:3000/content/smart/full/?h=400&w=200&base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=
+```
+
+200x400 local image
+```
+http://localhost:3000/content/smart/full/myImage.jpg?h=400&w=200
+```
+        
     
-## Connect.js/Express.js Usage
+    
+    
+## Connect.js/Express.js Usage (Creating your own API)
 
     var thumbs = require('node-image-farmer');
     app.use(thumbs());
     
 when configured with defaults, and if you have your node process running at yourdomain.com, a request such as:
 
-    http://yourdomain.com/thumbs/medium/?base64=aHR0cDovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zLzYvNjYvRWluc3RlaW5fMTkyMV9ieV9GX1NjaG11dHplci5qcGc=
+    http://yourdomain.com/content/smart/medium/?base64=aHR0cDovL3VwbG9hZC53aWtpbWVkaWEub3JnL3dpa2lwZWRpYS9jb21tb25zLzYvNjYvRWluc3RlaW5fMTkyMV9ieV9GX1NjaG11dHplci5qcGc=
     
 will display Einstein's photo from Wikipedia as a width: 300 (and proportionally resized height) thumbnail.
 
@@ -91,23 +160,23 @@ Another example uses the file system to resize a file within the app/images fold
 be a symlink to wherever the images are located.
 
 ```
-http://localhost:3000/thumbs/irakli/crops-smart.jpg
+http://localhost:3000/content/smart/irakli/crops-smart.jpg
 ```
 
 You may also override a preset by supplying a width, height, and quality in the query strings. Each of these are optional and
 distinct properties. For instance, by specifying the width you can override the preset's width without affecting the height or quality properties.
 
 ```
-http://localhost:3000/thumbs/default/crops-smart.jpg?height=300&width=200&quality=85
-http://localhost:3000/thumbs/default/crops-smart.jpg?h=300&w=200&q=85
+http://localhost:3000/content/smart/default/crops-smart.jpg?height=300&width=200&quality=85
+http://localhost:3000/content/smart/default/crops-smart.jpg?h=300&w=200&q=85
 ```
 
 
 This is because:
  
-1. `/thumbs/medium` in the begining of the URL instructs the middleware to use default resizing preset named "medium" 
+1. `/content/smart/medium` in the begining of the URL instructs the middleware to use default resizing preset named "medium" 
  which corresponds to proportional resizing to width: 300px.
-1. the long, somewhat cryptic code after /images/ is base64-encoded version of the 
+1. the long, somewhat cryptic code is base64-encoded version of the 
  [URL of Einstein's photo on Wikipedia](http://upload.wikimedia.org/wikipedia/commons/6/66/Einstein_1921_by_F_Schmutzer.jpg)
  and connect-middleware uses base64, by default, to encode the ID of the desired image.
  
@@ -176,10 +245,10 @@ For Nginx, your configuration may look something like the following:
 
 ```
   # Thumbnail processing
-  location ^~ /thumbs {
+  location ^~ /content/smart {
     auth_basic off;
 
-    proxy_pass         http://127.0.0.1:3333;
+    proxy_pass         http://127.0.0.1:3000;
     proxy_set_header   Host                   $http_host;
     proxy_redirect off;
   }
