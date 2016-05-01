@@ -1,1 +1,1 @@
-module.exports = require('./lib/node-image-farmer');
+module.exports = require('./lib/node-image-farmer_old');

@@ -1,8 +1,7 @@
 var express = require('express');
 var app = express();
-var thumbs = require('../lib/node-image-farmer');
 var urlDecoder = require('../lib/url-decoder');
-var fileHandler = require('../lib/file-handler');
+var imageFarmer = require('../lib/node-image-farmer');
 var security = require('../lib/security');
 
 var smartCrop = true;
@@ -55,9 +54,8 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
         res.end('Forbidden File Extension! \n\nAllowed: '+JSON.stringify(appConfig.allowedExtensions)+"\nInput: "+urlOptions.extension);
         return;
     }
-
-    //TODO: fileHandler will be renamed to node-image-farmer
-    fileHandler.processOptions(urlOptions, appConfig).then(function(fileStream){
+    
+    imageFarmer.processOptions(urlOptions, appConfig).then(function(fileStream){
         //send the file stream now
         res.writeHead(200, {
             maxAge: appConfig.ttl || 0
@@ -74,17 +72,6 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
         }
         console.log(err);
     });
-
-        //send processed file
-    //else
-        //check if we have the full file already
-        //else
-            //use fileRetriever
-            //retrieve file
-            //fileRetriever.getFile(urlOptions).then(function(filestream){
-            //    //resize file
-            //    //respond with file
-            //});
 });
 
 var server = app.listen(appConfig.port, function () {
