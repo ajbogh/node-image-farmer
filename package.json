@@ -44,6 +44,7 @@
     "node-mime": "^1.0.0",
     "pause": "0.x",
     "request": "2.x",
+    "request-promise": "^3.0.0",
     "send": "0.x"
   },
   "devDependencies": {
