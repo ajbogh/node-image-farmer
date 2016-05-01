@@ -54,7 +54,7 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
         res.end('Forbidden File Extension! \n\nAllowed: '+JSON.stringify(appConfig.allowedExtensions)+"\nInput: "+urlOptions.extension);
         return;
     }
-    
+
     imageFarmer.processOptions(urlOptions, appConfig).then(function(fileStream){
         //send the file stream now
         res.writeHead(200, {
