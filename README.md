@@ -1,5 +1,7 @@
 # node-image-farmer
 
+*"node-image-farmer...because it crops images"*
+
 * Original connect-thumbs code by [Irakli Nadareishvili](https://github.com/inadarei), modified by [Allan Bogh](https://github.com/ajbogh)
 
 Image thumbnailing middleware for Connect.js/Express.js that integrates with content-aware
