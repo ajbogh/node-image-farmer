@@ -20,6 +20,7 @@ Connect.js-complient way, allowing sensible defaults and high degree of customiz
 ### Using the provided API
     
     $ git clone git@github.com:ajbogh/node-image-farmer.git
+    $ cd node-image-farmer
     $ npm install
     $ npm run install-ubuntu-deps
     $ # npm run install-mac-deps (untested)
@@ -134,12 +135,12 @@ Photo Credit: [Andrew Schmidt](http://www.publicdomainpictures.net/view-image.ph
 
 200x400 remote image
 ```
-http://localhost:3000/content/smart/full/?h=400&w=200&base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=
+http://localhost:3000/content/smart/full/?w=200&h=400&base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=
 ```
 
 200x400 local image
 ```
-http://localhost:3000/content/smart/full/myImage.jpg?h=400&w=200
+http://localhost:3000/content/smart/full/myImage.jpg?w=200&h=400
 ```
         
     
@@ -147,8 +148,42 @@ http://localhost:3000/content/smart/full/myImage.jpg?h=400&w=200
     
 ## Connect.js/Express.js Usage (Creating your own API)
 
-    var thumbs = require('node-image-farmer');
-    app.use(thumbs());
+    app.get(appConfig.baseDirectory+"/*", function (req, res) {
+        //decode URL
+        var urlOptions = urlDecoder.processRequest(req, appConfig.presets);
+    
+        //ensure the correct file extension
+        if(!security.testExtension(urlOptions.extension, appConfig.allowedExtensions)){
+            res.writeHead(403);
+            res.end('Forbidden File Extension! \n\nAllowed: '+JSON.stringify(appConfig.allowedExtensions)+"\nInput: "+urlOptions.extension);
+            return;
+        }
+    
+        imageFarmer.processOptions(urlOptions, appConfig).then(function(fileStream){
+            //send the file stream now
+            res.writeHead(200, {
+                maxAge: appConfig.ttl || 0
+            });
+            fileStream.pipe(res);
+        }).catch(function(err){
+            if(err.responseCode){
+                res.writeHead(err.responseCode);
+                res.end(err.message);
+            }else{
+                //defualt is not found
+                res.writeHead(401);
+                res.end(err);
+            }
+            console.log(err);
+        });
+    });
+    
+    var server = app.listen(appConfig.port, function () {
+        var host = server.address().address;
+        var port = server.address().port;
+    
+        console.log('node-image-farmer app listening at http://%s:%s%s', host, port, rootPath);
+    });
     
 when configured with defaults, and if you have your node process running at yourdomain.com, a request such as:
 
@@ -178,63 +213,65 @@ This is because:
  which corresponds to proportional resizing to width: 300px.
 1. the long, somewhat cryptic code is base64-encoded version of the 
  [URL of Einstein's photo on Wikipedia](http://upload.wikimedia.org/wikipedia/commons/6/66/Einstein_1921_by_F_Schmutzer.jpg)
- and connect-middleware uses base64, by default, to encode the ID of the desired image.
- 
-You can provide an alternative `decodeFn` function, if you would rather use shorter IDs of your photos from your database, 
-or UUIDs or whatever else makes sense to you (see below). Custom `decodeFn` functions must have following signature: 
-
-    function(encodedURL, callback)
-    
-and must call callback, upon completion, with following syntax:
-
-    callback(err, decodedURLValue);
 
 ## Configuration
 
 ```
-    app.use(thumbs({
-      "smartCrop" : false
-    , "ttl" : 7200
-    , "tmpCacheTTL" : 86400
-    , "tmpDir" : "/tmp/mynodethumbnails"
-    , "decodeFn" : someModule.loadImageUrlFromDbById
-    , "allowedExtensions" : ['png', 'jpg']
-    , "rootPath": "/thumbs"
-    , "presets" : {
-        small : {
-          width: 120
-          , quality:.5
+    var appConfig = {
+        baseDirectory: '/content/smart',
+        port: 3000,
+        allowedExtensions : ['png', 'jpg'],
+        allowedMimeTypes : [
+            "image/jpeg",
+            "image/pjpeg",
+            "image/gif",
+            "image/png"
+        ],
+        tmpDir : "/tmp/node-image-farmer",
+        browserTTL: (3600 * 24), // cache for 24 hours by default
+        tmpCacheTTL: 60 * 30, // 30 minutes by default
+        fullFileTTL: (3600 * 24), // refresh the full file copy after 24 hours
+        useMultipleProcesses: true, //Uses all available cores to process long image requests
+        presets: { //all lowercase, one word
+            irakli: {
+                width: 300,
+                height: 520,
+                quality: 90
+            },
+            small : {
+                width: 240,
+                height: 160,
+                quality: 75
+            },
+            medium : {
+                width: 542,
+                height: 386,
+                quality: 85
+            },
+            hero : {
+                width: 980,
+                height: 370,
+                quality: 90
+            }
         }
-        , medium : {
-          width: 300
-          , quality:.7
-        }
-        , large : {
-          width: 900
-          , quality:.85
-        }
-      }
-    }));
+    };
 ```
 
 where:
 
- * smartCrop - enables experimental, content-aware cropping based on: [Smartcrop.js](https://github.com/jwagner/smartcrop.js/).
-   This is `false` by default, until Smartcrop.js matures, but will become the default option as soon as
-   there is a stable release of that project.
- * useIM - if you have trouble installing GraphicsMagick or prefer ImageMagick for any reason,
-   setting this to 'true' will skip using GraphicsMagick and use ImageMagick instead. False by default.
- * ttl - is the client-side cache duration that will be returned in the HTTP headers for the resulting thumbnail.
- * tmpCacheTTL - time (in seconds) to cache thumbnails in temp folder. Defaults to 0 (cache disabled).
- * tmpDir - is the Node-writable temp folder where file operations will be performed. Defaults to: `/tmp/nodethumbnails`. 
-   You may want to periodically clean-up that folder.
- * decodeFn - custom decoder function. Defaults to one that decodes base64-encoded full URLs.
- * allowedExtensions - file (path) extensions that node-image-farmer will try to thumbnail. Defaults to: jpg, jpeg, gif and png.
+ * baseDirectory - The directory in your URL to load the files from. Use '/someDirectory' 
+   to render images from  http://localhost:3000/someDirectory for example.
+ * port - The port to use. Default is 3000, you might want port 80 or 443 in production.
+ * allowedExtensions - An array of allowed extensions (without dots!)
+ * allowedMimeTypes - An array of allowed mime types.
+ * tmpDir - The directory to store copied images. Defaults to: `/tmp/node-image-farmer`. 
+ * browserTTL - The cache length in seconds to keep images in cache on the client browsers (24 hours by default).
+ * tmpCacheTTL - The cache length in seconds to keep the cropped images from re-processing the original image. Defaults to 30 minutes.
+ * fullFileTTL - The cache length in seconds to keep a copy of the original image. Defaults to 24 hours.
+ * useMultipleProcesses - Set true to use multiple cores for image requests (recommended), 
+   false will block requests until previous requests have finished.
  * presets - json object describing various image presets. You can indicate width, height and quality 
    level for each. Quality adjusts image compression level and its value ranges from 0 to 100 (best).
-    
-    Currently width is required and it is the only required argument. Expect more flexibility here in 
-    the following versions.
 
 ## Serving Behind a Web Server
     
@@ -265,9 +302,9 @@ connect-static fires *after* node-image-farmer does.
 
 ## Performance and Scalability
 
-Node.js is very fast, but Imagemagick and over-the-HTTP fetching of the original image most certainly are not. 
-Neither may be your custom decodeFn function if it is doing a database lookup for every request. In any 
+Node.js is very fast, but GraphicsMagick and over-the-HTTP fetching of the original image most certainly are not. In any 
 production setup it is highly recommended to put thubmnailing of images behind some sort of proxy/cache. 
+
 Viable options include:
 
 - Enabling the integrated disk-based cache provided by node-image-farmer. You can do this by passing custom `tmpCacheTTL`

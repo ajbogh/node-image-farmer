@@ -4,9 +4,6 @@ var urlDecoder = require('../lib/url-decoder');
 var imageFarmer = require('../lib/node-image-farmer');
 var security = require('../lib/security');
 
-var smartCrop = true;
-var rootPath = "/content/smart";
-
 var appConfig = {
     baseDirectory: '/content/smart',
     port: 3000,
@@ -18,8 +15,10 @@ var appConfig = {
         "image/png"
     ],
     tmpDir : "/tmp/node-image-farmer",
-    ttl: (3600 * 24), // cache for 1 day by default.
+    browserTTL: (3600 * 24), // cache for 24 hours by default
     tmpCacheTTL: 60 * 30, // 30 minutes by default
+    fullFileTTL: (3600 * 24), // refresh the full file copy after 24 hours
+    useMultipleProcesses: true, //Uses all available cores to process long image requests
     presets: { //all lowercase, one word
         irakli: {
             width: 300,
@@ -58,7 +57,7 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
     imageFarmer.processOptions(urlOptions, appConfig).then(function(fileStream){
         //send the file stream now
         res.writeHead(200, {
-            maxAge: appConfig.ttl || 0
+            maxAge: appConfig.browserTTL || 0
         });
         fileStream.pipe(res);
     }).catch(function(err){
