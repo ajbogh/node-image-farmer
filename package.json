@@ -65,9 +65,9 @@
     "pretest": "jshint lib",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
-    "install-ubuntu-deps": "apt-get install imagemagick graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
-    "install-mac-deps": "brew install imagemagick --with-webp && xcode-select --install && brew install pkgconfig pixman libjpeg giflib cairo",
-    "install-redhat-deps": "yum install ImageMagick GraphicsMagick libcairo2-dev libjpeg-dev libgif-dev"
+    "install-ubuntu-deps": "apt-get install graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
+    "install-mac-deps": "brew install graphicsmagick && xcode-select --install && brew install pkgconfig pixman libjpeg giflib cairo",
+    "install-redhat-deps": "yum install GraphicsMagick libcairo2-dev libjpeg-dev libgif-dev"
   },
   "optionalDependencies": {
     "canvas": "^1.2.10",

@@ -77,5 +77,5 @@ var server = app.listen(appConfig.port, function () {
     var host = server.address().address;
     var port = server.address().port;
 
-    console.log('node-image-farmer app listening at http://%s:%s%s', host, port, rootPath);
+    console.log('node-image-farmer app listening at http://%s:%s%s', host, port, appConfig.baseDirectory);
 });
