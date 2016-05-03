@@ -74,10 +74,15 @@ http://localhost:3000/content/smart/small/my/subfolder/myImage.jpg
 ## API
 
 **Port**: 3000 (default)
+
 **Preset**: [full, small, medium, hero, irakli] (default, configurable)
+
 **Width**: w or width (query string, optional)
+
 **Height**: h or height (query string, optional)
+
 **Quality**: q or quality (query string, optional, 1-100 default 95)
+
 **Minimum Scale**: minScale (query string, optional, between 0.1 and 1) - Allows the system to zoom in on a portion of the image to 
   find the best crop setting. Lower numbers may take an extremely long time, we recommend not using numbers below 0.5.
 
