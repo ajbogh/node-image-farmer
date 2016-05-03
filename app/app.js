@@ -28,12 +28,14 @@ var appConfig = {
         small : {
             width: 240,
             height: 160,
-            quality: 75
+            quality: 75,
+            minScale: 0.6
         },
         medium : {
             width: 542,
             height: 386,
-            quality: 85
+            quality: 85,
+            minScale: 0.8
         },
         hero : {
             width: 980,
