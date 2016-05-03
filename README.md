@@ -73,7 +73,7 @@ http://localhost:3000/content/smart/small/my/subfolder/myImage.jpg
 
 ## API
 
-- **Preset**: [full, small, medium, hero, irakli] (default, configurable)
+- **Preset**: \[full, small, medium, hero, irakli] (default, configurable)
 - **width**: w or width (query string, optional)
 - **height**: h or height (query string, optional)
 - **quality**: q or quality (query string, optional, 1-100 default 95)
