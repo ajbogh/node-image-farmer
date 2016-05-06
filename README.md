@@ -195,8 +195,8 @@ You may also override a preset by supplying a width, height, and quality in the 
 distinct properties. For instance, by specifying the width you can override the preset's width without affecting the height or quality properties.
 
 ```
-http://localhost:3000/content/smart/default/crops-smart.jpg?height=300&width=200&quality=85
-http://localhost:3000/content/smart/default/crops-smart.jpg?h=300&w=200&q=85
+http://localhost:3000/content/smart/medium/crops-smart.jpg?height=300&width=200&quality=85
+http://localhost:3000/content/smart/medium/crops-smart.jpg?h=300&w=200&q=85
 ```
 
 
