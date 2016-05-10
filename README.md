@@ -23,10 +23,11 @@ Connect.js-complient way, allowing sensible defaults and high degree of customiz
     
     $ git clone git@github.com:ajbogh/node-image-farmer.git
     $ cd node-image-farmer
-    $ npm install
     $ npm run install-ubuntu-deps
+    $ # npm run install-redhat-deps
     $ # npm run install-mac-deps (untested)
-    $ # npm run install-redhat-deps (untested)
+    $ npm install
+   
     
 ### Installing Dependencies (if "npm run install-XYZ-deps" doesn't work)   
 
