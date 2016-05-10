@@ -47,7 +47,9 @@
     "pause": "0.x",
     "request": "2.x",
     "request-promise": "^3.0.0",
-    "send": "0.x"
+    "send": "0.x",
+    "canvas": "^1.2.10",
+    "smartcrop": "0.0.1"
   },
   "devDependencies": {
     "after": "^0.8.1",
@@ -70,10 +72,6 @@
     "install-ubuntu-deps": "apt-get install graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
     "install-mac-deps": "brew install graphicsmagick && xcode-select --install && brew install pkgconfig pixman libjpeg giflib cairo",
     "install-redhat-deps": "yum install GraphicsMagick cairo-devel libjpeg-devel giflib-devel"
-  },
-  "optionalDependencies": {
-    "canvas": "^1.2.10",
-    "smartcrop": "0.0.1"
   },
   "engines": {
     "node": "*"
