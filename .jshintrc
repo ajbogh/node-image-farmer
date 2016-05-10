@@ -20,7 +20,7 @@
   "nonew"         : true,    // true: Prohibit use of constructors for side-effects (without assignment)
   "plusplus"      : false,    // true: Prohibit use of `++` & `--`
   "quotmark"      : false,    // Quotation mark consistency:
-  "undef"         : true,     // true: Require all non-global variables to be declared (prevents global leaks)
+  "undef"         : false,     // true: Require all non-global variables to be declared (prevents global leaks)
   "unused"        : false,     // true: Require all defined variables be used
   "strict"        : false,     // true: Requires all functions run in ES5 Strict Mode
   "maxparams"     : false,    // {int} Max number of formal params allowed per function

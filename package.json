@@ -34,6 +34,7 @@
   "license": "MIT",
   "dependencies": {
     "async": "0.1.x",
+    "debug": "^2.2.0",
     "fs-extra": "^0.28.0",
     "gm": "^1.20.0",
     "image-size": "^0.5.0",
@@ -67,7 +68,7 @@
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
     "install-ubuntu-deps": "apt-get install graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
     "install-mac-deps": "brew install graphicsmagick && xcode-select --install && brew install pkgconfig pixman libjpeg giflib cairo",
-    "install-redhat-deps": "yum install GraphicsMagick libcairo2-dev libjpeg-dev libgif-dev"
+    "install-redhat-deps": "yum install GraphicsMagick cairo-devel libjpeg-devel libgif-devel"
   },
   "optionalDependencies": {
     "canvas": "^1.2.10",

@@ -3,6 +3,7 @@ var app = express();
 var urlDecoder = require('../lib/url-decoder');
 var imageFarmer = require('../lib/node-image-farmer');
 var security = require('../lib/security');
+var debug = require('debug')('node-image-farmer');
 
 var appConfig = {
     baseDirectory: '/content/smart',
@@ -71,7 +72,7 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
             res.writeHead(401);
             res.end(err);
         }
-        console.log(err);
+        debug(err);
     });
 });
 
@@ -79,5 +80,5 @@ var server = app.listen(appConfig.port, function () {
     var host = server.address().address;
     var port = server.address().port;
 
-    console.log('node-image-farmer app listening at http://%s:%s%s', host, port, appConfig.baseDirectory);
+    debug('node-image-farmer app listening at http://%s:%s%s', host, port, appConfig.baseDirectory);
 });
