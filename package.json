@@ -68,7 +68,7 @@
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
     "install-ubuntu-deps": "apt-get install graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
     "install-mac-deps": "brew install graphicsmagick && xcode-select --install && brew install pkgconfig pixman libjpeg giflib cairo",
-    "install-redhat-deps": "yum install GraphicsMagick cairo-devel libjpeg-devel libgif-devel"
+    "install-redhat-deps": "yum install GraphicsMagick cairo-devel libjpeg-devel giflib-devel"
   },
   "optionalDependencies": {
     "canvas": "^1.2.10",
