@@ -34,7 +34,9 @@
   "license": "MIT",
   "dependencies": {
     "async": "0.1.x",
+    "canvas": "^1.2.10",
     "debug": "^2.2.0",
+    "es6-promise": "^3.1.2",
     "fs-extra": "^0.28.0",
     "gm": "^1.20.0",
     "image-size": "^0.5.0",
@@ -48,7 +50,6 @@
     "request": "2.x",
     "request-promise": "^3.0.0",
     "send": "0.x",
-    "canvas": "^1.2.10",
     "smartcrop": "0.0.1"
   },
   "devDependencies": {
