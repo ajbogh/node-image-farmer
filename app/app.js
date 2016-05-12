@@ -8,7 +8,7 @@ var debug = require('debug')('node-image-farmer');
 var appConfig = {
     baseDirectory: '/content/smart',
     port: 3000,
-    allowedExtensions : ['png', 'jpg'],
+    allowedExtensions : ['png', 'gif', 'jpg'],
     allowedMimeTypes : [
         "image/jpeg",
         "image/pjpeg",
@@ -46,6 +46,12 @@ var appConfig = {
     }
 };
 
+var extensionMimeMapping = {
+    jpg: 'image/jpeg',
+    gif: 'image/gif',
+    png: 'image/png'
+}
+
 app.get(appConfig.baseDirectory+"/*", function (req, res) {
     //decode URL
     var urlOptions = urlDecoder.processRequest(req, appConfig.presets);
@@ -59,9 +65,12 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
 
     imageFarmer.processOptions(urlOptions, appConfig).then(function(fileStream){
         //send the file stream now
-        res.writeHead(200, {
+        var responseHeaders = {
             maxAge: appConfig.browserTTL || 0
-        });
+        };
+        responseHeaders['Content-Type'] = extensionMimeMapping[urlOptions.extension] ? extensionMimeMapping[urlOptions.extension] : 'text/plain';
+
+        res.writeHead(200, responseHeaders);
         fileStream.pipe(res);
     }).catch(function(err){
         if(err.responseCode){
