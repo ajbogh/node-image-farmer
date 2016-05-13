@@ -1,15 +1,9 @@
 /*
- * smartCrop.js
- *
- * Created: October 14, 2015
- * (c) Copyright 2015 Holland America, Inc. - All Rights Reserved
- * This is unpublished proprietary source code of Holland America, Inc.
- * The copyright notice above does not evidence any actual or intended
- * publication of such source code.
+ * imageFarmer.js
  */
 
 /**
- * @name common.directives.smartCrop
+ * @name common.directives.imageFarmer
  * @description Performs a smart crop on an image using the canvas element and replaces the img with canvas using similar attributes.
  */
 
@@ -24,13 +18,14 @@ angular.module('common.directives.imageFarmer', [])
      * @description requests the image from the image-farmer server.
      * @example
      <pre>
-     <img image-farmer crop-width="980" crop-height="370" preset="small" src="/content/hal/cruise-experience/shorex/catalog/60133-full.jpg" />
+     <img image-farmer="/content/hal/cruise-experience/shorex/catalog/60133-full.jpg" crop-width="980" crop-height="370" />
+     <img image-farmer="/content/hal/cruise-experience/shorex/catalog/60133-full.jpg" preset="small" />
      </pre>
      *
      */
 
     /**
-     * usage: <img image-farmer crop-width="980" crop-height="370" src="/content/hal/cruise-experience/shorex/catalog/60133-full.jpg" />
+     * usage: <img image-farmer="/content/hal/cruise-experience/shorex/catalog/60133-full.jpg" crop-width="980" crop-height="370" />
      * note: images must be on the same domain as website, no cross-domain images unless CORS is configured on the image server.
      *
      * param crop-width (optional, default 400)
