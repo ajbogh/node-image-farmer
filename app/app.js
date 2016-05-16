@@ -4,47 +4,8 @@ var urlDecoder = require('../lib/url-decoder');
 var imageFarmer = require('../lib/node-image-farmer');
 var security = require('../lib/security');
 var debug = require('debug')('node-image-farmer');
-
-var appConfig = {
-    baseDirectory: '/content/smart',
-    port: 3000,
-    allowedExtensions : ['png', 'gif', 'jpg'],
-    allowedMimeTypes : [
-        "image/jpeg",
-        "image/pjpeg",
-        "image/gif",
-        "image/png"
-    ],
-    tmpDir : "/tmp/node-image-farmer",
-    browserTTL: (3600 * 24), // cache for 24 hours by default
-    tmpCacheTTL: 60 * 30, // 30 minutes by default
-    fullFileTTL: (3600 * 24), // refresh the full file copy after 24 hours
-    useMultipleProcesses: true, //Uses all available cores to process long image requests
-    presets: { //all lowercase, one word
-        irakli: {
-            width: 300,
-            height: 520,
-            quality: 90
-        },
-        small : {
-            width: 240,
-            height: 160,
-            quality: 75,
-            minScale: 0.6
-        },
-        medium : {
-            width: 542,
-            height: 386,
-            quality: 85,
-            minScale: 0.8
-        },
-        hero : {
-            width: 980,
-            height: 370,
-            quality: 90
-        }
-    }
-};
+var fs = require('fs');
+var appConfig = JSON.parse(fs.readFileSync(__dirname + '/../config/appConfig.json', 'utf8'));
 
 var extensionMimeMapping = {
     jpg: 'image/jpeg',

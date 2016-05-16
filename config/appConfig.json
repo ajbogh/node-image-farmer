@@ -1,0 +1,40 @@
+{
+    "baseDirectory": "/content/smart",
+    "port": 3000,
+    "allowedExtensions" : ["png", "gif", "jpg"],
+    "allowedMimeTypes" : [
+        "image/jpeg",
+        "image/pjpeg",
+        "image/gif",
+        "image/png"
+    ],
+    "tmpDir" : "/tmp/node-image-farmer",
+    "browserTTL": 86400,
+    "tmpCacheTTL": 1800,
+    "fullFileTTL": 86400,
+    "useMultipleProcesses": true,
+    "presets": {
+        "irakli": {
+            "width": 300,
+            "height": 520,
+            "quality": 90
+        },
+        "small" : {
+            "width": 240,
+            "height": 160,
+            "quality": 75,
+            "minScale": 0.6
+        },
+        "medium" : {
+            "width": 542,
+            "height": 386,
+            "quality": 85,
+            "minScale": 0.8
+        },
+        "hero" : {
+            "width": 980,
+            "height": 370,
+            "quality": 90
+        }
+    }
+}
