@@ -1,7 +1,7 @@
 {
     "baseDirectory": "/content/smart",
     "port": 3000,
-    "allowedExtensions" : ["png", "gif", "jpg"],
+    "allowedExtensions" : ["png", "gif", "jpg", "jpeg"],
     "allowedMimeTypes" : [
         "image/jpeg",
         "image/pjpeg",

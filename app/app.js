@@ -9,6 +9,7 @@ var appConfig = JSON.parse(fs.readFileSync(__dirname + '/../config/appConfig.jso
 
 var extensionMimeMapping = {
     jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
     gif: 'image/gif',
     png: 'image/png'
 }
@@ -29,7 +30,7 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
         var responseHeaders = {
             maxAge: appConfig.browserTTL || 0
         };
-        responseHeaders['Content-Type'] = extensionMimeMapping[urlOptions.extension] ? extensionMimeMapping[urlOptions.extension] : 'text/plain';
+        responseHeaders['Content-Type'] = extensionMimeMapping[urlOptions.extension.toLowerCase()] ? extensionMimeMapping[urlOptions.extension.toLowerCase()] : 'text/plain';
 
         res.writeHead(200, responseHeaders);
         fileStream.pipe(res);
