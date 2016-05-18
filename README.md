@@ -14,36 +14,41 @@ Connect.js-complient way, allowing sensible defaults and high degree of customiz
 
 ### Using your own API
 
-    $ npm install node-image-farmer --save
-    $ npm run install-ubuntu-deps
-    $ # npm run install-mac-deps (untested)
-    $ # npm run install-redhat-deps (untested)
+```console
+$ npm install node-image-farmer --save
+$ npm run install-ubuntu-deps
+$ # npm run install-mac-deps (untested)
+$ # npm run install-redhat-deps (untested)
+``` 
 
 ### Using the provided API
-    
-    $ git clone git@github.com:ajbogh/node-image-farmer.git
-    $ cd node-image-farmer
-    $ npm run install-ubuntu-deps
-    $ # npm run install-redhat-deps
-    $ # npm run install-mac-deps (untested)
-    $ npm install
+
+```console
+$ git clone git@github.com:ajbogh/node-image-farmer.git
+$ cd node-image-farmer
+$ npm run install-ubuntu-deps
+$ # npm run install-redhat-deps
+$ # npm run install-mac-deps (untested)
+$ npm install
+```
    
+### Checking out specific version
+
+```console
+$ git fetch --tags
+$ git checkout v1.2.1
+$ #npm install
+```
     
-### Installing Dependencies (if "npm run install-XYZ-deps" doesn't work)   
+### Installing Dependencies Manually (if "npm run install-XYZ-deps" doesn't work)   
+
+Note: there are also APT and YUM repositories you can use for Ubuntu/Debian and 
+RedHat/Centos/Fedora respectively.
 
 On OS-X you can easily install dependencies with: 
 
 ```console
 > brew install graphicsmagick
-```
-
-Similarly, there are also APT and YUM repositories you can use for Ubuntu/Debian and 
-RedHat/Centos/Fedora respectively.
-
-If you are going to use smart (content-aware) cropping, you will also need to install Cairo. On OS-X you 
-can install it with: 
-
-```console
 > xcode-select --install
 > brew install pkgconfig
 > brew install pixman
@@ -51,11 +56,6 @@ can install it with:
 > brew install giflib 
 > brew install cairo
 ```
-
-The last step takes a while, and also: make sure everything links properly after each "brew install" and 
-that you have the latest brew upgrade.
-
-On other platforms, you can consult: [Cairo documentation](http://cairographics.org/download/).
 
 ## Serving local images
 
@@ -74,7 +74,7 @@ http://localhost:3000/content/smart/small/my/subfolder/myImage.jpg
 
 ## API
 
-- **Preset**: \[full, small, medium, hero, irakli] (default, configurable)
+- **preset**: \[full, small, medium, hero, irakli] (default, configurable)
 - **width**: w or width (query string, optional)
 - **height**: h or height (query string, optional)
 - **quality**: q or quality (query string, optional, 1-100 default 95)
@@ -210,46 +210,48 @@ This is because:
 
 ## Configuration
 
-```
-    var appConfig = {
-        baseDirectory: '/content/smart',
-        port: 3000,
-        allowedExtensions : ['png', 'jpg'],
-        allowedMimeTypes : [
+Edit the config/appConfig.json file for your setup. (comments added below are for informational purposes, not to be included in JSON)
+
+```json
+    {
+        "baseDirectory": "/content/smart",
+        "port": 3000,
+        "allowedExtensions" : ["png", "jpg"],
+        "allowedMimeTypes" : [
             "image/jpeg",
             "image/pjpeg",
             "image/gif",
             "image/png"
         ],
-        tmpDir : "/tmp/node-image-farmer",
-        browserTTL: (3600 * 24), // cache for 24 hours by default
-        tmpCacheTTL: 60 * 30, // 30 minutes by default
-        fullFileTTL: (3600 * 24), // refresh the full file copy after 24 hours
-        useMultipleProcesses: true, //Uses all available cores to process long image requests
-        presets: { //all lowercase, one word
-            irakli: {
-                width: 300,
-                height: 520,
-                quality: 90
+        "tmpDir" : "/tmp/node-image-farmer",
+        "browserTTL": 86400, // cache for 24 hours by default
+        "tmpCacheTTL": 1800, // 30 minutes by default
+        "fullFileTTL": 86400, // refresh the full file copy after 24 hours
+        "useMultipleProcesses": true, //Uses all available cores to process long image requests
+        "presets": { //all lowercase, one word
+            "irakli": {
+                "width": 300,
+                "height": 520,
+                "quality": 90
             },
-            small : {
-                width: 240,
-                height: 160,
-                quality: 75,
-                minScale: 0.7
+            "small" : {
+                "width": 240,
+                "height": 160,
+                "quality": 75,
+                "minScale": 0.7
             },
-            medium : {
-                width: 542,
-                height: 386,
-                quality: 85
+            "medium" : {
+                "width": 542,
+                "height": 386,
+                "quality": 85
             },
-            hero : {
-                width: 980,
-                height: 370,
-                quality: 90
+            "hero" : {
+                "width": 980,
+                "height": 370,
+                "quality": 90
             }
         }
-    };
+    }
 ```
 
 where:
@@ -298,7 +300,16 @@ connect-static fires *after* node-image-farmer does.
 ## Performance and Scalability
 
 Node.js is very fast, but GraphicsMagick and over-the-HTTP fetching of the original image most certainly are not. In any 
-production setup it is highly recommended to put thubmnailing of images behind some sort of proxy/cache. 
+production setup it is highly recommended to put thubmnailing of images behind some sort of proxy/cache/CDN. 
+
+The tmp file storage will prevent the system from needing to crop the image if it has already done it once before. The full file cache will reduce the 
+need to download the file from a website or copy the file from a disk.
+
+When useMultipleProcesses is enabled, the system can crop as many images at a time as there are cores on the server. 
+It's best to use more than 2 cores, preferably 4. If there is only 1 core then the system will still create 1 new process per request, but the 
+OS will handle multithreading.
+
+If useMultipleProcesses is disabled then the process will block new requests until the previous image is cropped and served.
 
 Viable options include:
 
