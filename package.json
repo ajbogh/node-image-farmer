@@ -19,7 +19,7 @@
     "middleware",
     "express"
   ],
-  "version": "1.2.2",
+  "version": "1.2.3",
   "contributors": [
     {
       "name": "Irakli Nadareishvili",
