@@ -12,13 +12,17 @@ Connect.js-complient way, allowing sensible defaults and high degree of customiz
 
 ## Installation
 
+### Dependencies
+
+C++11 compiler - g++ 4.8 or clang 3.2
+Why? Canvas doesn't install using node-gyp without C++11 features. 
+Sometimes the root user can't perform the npm install, however a normal user account can without installing g++ 4.8. 
+
 ### Using your own API
 
 ```console
+$ # dependencies need to be installed first
 $ npm install node-image-farmer --save
-$ npm run install-ubuntu-deps
-$ # npm run install-mac-deps (untested)
-$ # npm run install-redhat-deps (untested)
 ``` 
 
 ### Using the provided API
@@ -37,7 +41,7 @@ $ npm install
 ```console
 $ git fetch --tags
 $ git checkout v1.2.1
-$ #npm install
+$ # npm install
 ```
     
 ### Installing Dependencies Manually (if "npm run install-XYZ-deps" doesn't work)   
@@ -110,6 +114,8 @@ If you have all the prerequisites installed you can launch a demo with:
 
 ```
 $ npm run app
+$ # or
+$ ./nodeImageServer
 ```
 
 And then open your browser at the [following URL](http://localhost:3000/content/smart/full/?base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=):
@@ -136,48 +142,10 @@ http://localhost:3000/content/smart/full/?w=200&h=400&base64=aHR0cDovL3d3dy5wdWJ
 ```
 http://localhost:3000/content/smart/full/myImage.jpg?w=200&h=400
 ```
-        
-    
-    
     
 ## Connect.js/Express.js Usage (Creating your own API)
 
-    app.get(appConfig.baseDirectory+"/*", function (req, res) {
-        //decode URL
-        var urlOptions = urlDecoder.processRequest(req, appConfig.presets);
-    
-        //ensure the correct file extension
-        if(!security.testExtension(urlOptions.extension, appConfig.allowedExtensions)){
-            res.writeHead(403);
-            res.end('Forbidden File Extension! \n\nAllowed: '+JSON.stringify(appConfig.allowedExtensions)+"\nInput: "+urlOptions.extension);
-            return;
-        }
-    
-        imageFarmer.processOptions(urlOptions, appConfig).then(function(fileStream){
-            //send the file stream now
-            res.writeHead(200, {
-                maxAge: appConfig.ttl || 0
-            });
-            fileStream.pipe(res);
-        }).catch(function(err){
-            if(err.responseCode){
-                res.writeHead(err.responseCode);
-                res.end(err.message);
-            }else{
-                //defualt is not found
-                res.writeHead(401);
-                res.end(err);
-            }
-            console.log(err);
-        });
-    });
-    
-    var server = app.listen(appConfig.port, function () {
-        var host = server.address().address;
-        var port = server.address().port;
-    
-        console.log('node-image-farmer app listening at http://%s:%s%s', host, port, rootPath);
-    });
+    See app/app.js for an example. You may add/modify or remove any code within this file to obtain your own API.
     
 when configured with defaults, and if you have your node process running at yourdomain.com, a request such as:
 
@@ -203,7 +171,7 @@ http://localhost:3000/content/smart/medium/crops-smart.jpg?h=300&w=200&q=85
 
 This is because:
  
-1. `/content/smart/medium` in the begining of the URL instructs the middleware to use default resizing preset named "medium" 
+1. `/content/smart/medium` in the beginning of the URL instructs the middleware to use default resizing preset named "medium" 
  which corresponds to proportional resizing to width: 300px.
 1. the long, somewhat cryptic code is base64-encoded version of the 
  [URL of Einstein's photo on Wikipedia](http://upload.wikimedia.org/wikipedia/commons/6/66/Einstein_1921_by_F_Schmutzer.jpg)
@@ -300,10 +268,10 @@ connect-static fires *after* node-image-farmer does.
 ## Performance and Scalability
 
 Node.js is very fast, but GraphicsMagick and over-the-HTTP fetching of the original image most certainly are not. In any 
-production setup it is highly recommended to put thubmnailing of images behind some sort of proxy/cache/CDN. 
+production setup it is highly recommended to put thumbnailing of images behind some sort of proxy/cache/CDN. 
 
-The tmp file storage will prevent the system from needing to crop the image if it has already done it once before. The full file cache will reduce the 
-need to download the file from a website or copy the file from a disk.
+The tmp file storage will prevent the system from needing to crop the image if it has already done it once before (within the time limit). 
+The full file cache will reduce the need to download the file from a website or copy the file from a disk.
 
 When useMultipleProcesses is enabled, the system can crop as many images at a time as there are cores on the server. 
 It's best to use more than 2 cores, preferably 4. If there is only 1 core then the system will still create 1 new process per request, but the 
