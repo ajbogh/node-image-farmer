@@ -1,6 +1,7 @@
 ### v1.2.5
 
 - Added CHANGELOG.md and adjusted the README.md file.
+- Modified nodeImageFarmer.sh to log to /var/log/node-image-farmer and nohup the process.
 
 ### v1.2.4
 
