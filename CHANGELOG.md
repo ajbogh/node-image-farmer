@@ -1,3 +1,7 @@
+### v1.2.6
+
+- Modified the run script to include the imageFarmer process name. Now `sudo killall imageFarmer` will work.
+
 ### v1.2.5
 
 - Added CHANGELOG.md and adjusted the README.md file.
@@ -9,7 +13,7 @@
 
 ### v1.2.3
 
-- Added nodeImageFarmer.sh so that the app can be found more easily in 'ps -A | grep nodeImageFarmer'
+- Added nodeImageFarmer.sh so that the app can be found more easily in `ps -A | grep nodeImageFarmer`
 
 ### v1.2.2
 
