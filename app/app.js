@@ -6,6 +6,12 @@ var security = require('../lib/security');
 var debug = require('debug')('node-image-farmer');
 var fs = require('fs');
 var appConfig = JSON.parse(fs.readFileSync(__dirname + '/../config/appConfig.json', 'utf8'));
+var argv = require('minimist')(process.argv.slice(2));
+
+//set the process name
+if(argv["_"] && argv["_"].length > 0) {
+    process.title = argv["_"][0];
+}
 
 var extensionMimeMapping = {
     jpg: 'image/jpeg',

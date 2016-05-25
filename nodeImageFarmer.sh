@@ -7,5 +7,5 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 if [ -d "$DIRECTORY" ]; then
-  nohup ./imageFarmerService.sh > /var/log/node-image-farmer/node-image-farmer.log 2>&1 &
+  nohup npm run app "imageFarmer" > /var/log/node-image-farmer/node-image-farmer.log 2>&1 &
 fi
