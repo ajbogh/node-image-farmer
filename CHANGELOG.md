@@ -1,3 +1,7 @@
+### v1.2.7
+
+- Modified console.logs to use debug instead. Now debugging can be enabled with `DEBUG=node-image-farmer* npm run app`
+
 ### v1.2.6
 
 - Modified the run script to include the imageFarmer process name. Now `sudo killall imageFarmer` will work.
