@@ -20,6 +20,8 @@ Sometimes the root user can't perform the npm install, however a normal user acc
 
 ### Using your own API
 
+See app/app.js for an example API.
+
 ```console
 $ # dependencies need to be installed first
 $ npm install node-image-farmer --save
