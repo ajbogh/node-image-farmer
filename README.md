@@ -52,6 +52,18 @@ can install it with:
 > brew install cairo
 ```
 
+
+If an canvas error appears try these commands for Mac OSX ninjas:
+
+```
+$ ls /usr/local/lib/pkgconfig/
+to confirm cairo.pc is in the directory
+$ (open/vim/nano) ~/.bash_profile
+add "export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/"
+then run
+$ npm install
+```
+
 The last step takes a while, and also: make sure everything links properly after each "brew install" and 
 that you have the latest brew upgrade.
 
