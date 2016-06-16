@@ -51,7 +51,7 @@ $ # npm install
 Note: there are also APT and YUM repositories you can use for Ubuntu/Debian and 
 RedHat/Centos/Fedora respectively.
 
-On OS-X you can easily install dependencies with: 
+*On OS-X** you can easily install dependencies with: 
 
 ```console
 > brew install graphicsmagick
@@ -61,6 +61,28 @@ On OS-X you can easily install dependencies with:
 > brew install libjpeg
 > brew install giflib 
 > brew install cairo
+```
+
+*On OS-X*, if an canvas error appears try these commands:
+
+- Find the directory which contains the Cairo installation: 
+```shell
+$ sudo find / -name cairo.pc
+```
+
+You should see one like  `/usr/local/lib/pkgconfig/`.
+
+- Add the pkgconfig path to your .bash_profile
+
+```shell
+$ echo `export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig/` >> ~/.bash_profile
+```
+
+- Close and reopen your terminal or type `source ~/.bash_profile` to reload the profile.
+- Now you can run npm install again.
+
+```shell
+$ npm install
 ```
 
 ## Serving local images
