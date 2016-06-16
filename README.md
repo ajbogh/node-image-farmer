@@ -51,7 +51,7 @@ $ # npm install
 Note: there are also APT and YUM repositories you can use for Ubuntu/Debian and 
 RedHat/Centos/Fedora respectively.
 
-*On OS-X** you can easily install dependencies with: 
+**On OS-X** you can easily install dependencies with: 
 
 ```console
 > brew install graphicsmagick
@@ -63,7 +63,7 @@ RedHat/Centos/Fedora respectively.
 > brew install cairo
 ```
 
-*On OS-X*, if an canvas error appears try these commands:
+**On OS-X**, if an canvas error appears try these commands:
 
 - Find the directory which contains the Cairo installation: 
 ```shell
