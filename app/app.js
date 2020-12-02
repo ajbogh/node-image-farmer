@@ -3,7 +3,7 @@ var app = express();
 var urlDecoder = require('../lib/url-decoder');
 var imageFarmer = require('../lib/node-image-farmer');
 var security = require('../lib/security');
-var debug = require('debug')('node-image-farmer:app');
+var debug = require('debug')('node-image-farmer');
 var fs = require('fs');
 var appConfig = JSON.parse(fs.readFileSync(__dirname + '/../config/appConfig.json', 'utf8'));
 var argv = require('minimist')(process.argv.slice(2));
@@ -43,13 +43,12 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
     }).catch(function(err){
         if(err.responseCode){
             res.writeHead(err.responseCode);
-            res.end(err.message);
         }else{
-            //defualt is not found
+            //default is not found
             res.writeHead(401);
-            res.end(err);
         }
         debug(err);
+        res.end(err.message);
     });
 });
 

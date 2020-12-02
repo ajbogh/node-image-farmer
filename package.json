@@ -76,6 +76,6 @@
     "install-redhat-deps": "yum install GraphicsMagick cairo cairo-devel libjpeg-devel cairomm-devel libjpeg-turbo-devel pango pango-devel pangomm pangomm-devel giflib-devel"
   },
   "engines": {
-    "node": "*"
+    "node": ">=12.4.0"
   }
 }
