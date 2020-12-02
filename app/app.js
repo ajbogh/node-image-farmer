@@ -52,7 +52,7 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
     });
 });
 
-var server = app.listen(appConfig.port, function () {
+var server = app.listen(argv.port || appConfig.port, function () {
     var host = server.address().address;
     var port = server.address().port;
 

@@ -155,6 +155,14 @@ You can see on the following diagram what simple (on the left), and smart (on th
 
 Photo Credit: [Andrew Schmidt](http://www.publicdomainpictures.net/view-image.php?image=2514&picture=seagull&large=1) (Public Domain)
 
+### Overriding the Default Port
+
+By default node-image-farmer runs on port 3000. You can override the port with this command:
+
+```
+npm run app -- --port 3002
+```
+
 ### Smart Cropping
 
 200x400 remote image
@@ -250,7 +258,7 @@ where:
 
  * baseDirectory - The directory in your URL to load the files from. Use '/someDirectory' 
    to render images from  http://localhost:3000/someDirectory for example.
- * port - The port to use. Default is 3000, you might want port 80 or 443 in production.
+ * port - The port to use. Default is 3000, you might want port 80 or 443 in production. Can be overridden in the command line: `npm run app -- --port 3002`
  * allowedExtensions - An array of allowed extensions (without dots!)
  * allowedMimeTypes - An array of allowed mime types.
  * tmpDir - The directory to store copied images. Defaults to: `/tmp/node-image-farmer`. 
@@ -288,6 +296,21 @@ For Nginx, your configuration may look something like the following:
 
 Alternatively, sometimes connect-static is used to serve static content. If you do that, please make sure that 
 connect-static fires *after* node-image-farmer does.
+
+## Debugging
+
+You can debug the app using the following commands:
+
+```
+DEBUG=node-image-farmer npm run app
+```
+
+Some files have separate debug keys since they can be more complex. You can debug these files with other commands:
+
+```
+DEBUG=node-image-farmer:image-modifier npm run app
+DEBUG=node-image-farmer:url-decoder npm run app
+```
 
 ## Performance and Scalability
 
