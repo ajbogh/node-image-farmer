@@ -37,8 +37,8 @@
     "prepublish": "npm prune",
     "test": "mocha --reporter spec --bail --check-leaks test/",
     "pretest": "jshint lib",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "test-cov": "nyc --reporter=lcov npm run test",
+    "test-travis": "nyc --reporter=lcovonly --reporter text npm run test",
     "install-ubuntu-deps": "apt-get install graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
     "install-mac-deps": "brew install graphicsmagick && ( xcode-select --install || echo 'xcode may have already been installed.' ) && brew install pkgconfig pixman libjpeg giflib cairo",
     "install-redhat-deps": "yum install GraphicsMagick cairo cairo-devel libjpeg-devel cairomm-devel libjpeg-turbo-devel pango pango-devel pangomm pangomm-devel giflib-devel"
@@ -55,20 +55,15 @@
     "minimist": "^1.2.5",
     "mkdirp": "0.x",
     "moment": "^2.29.1",
-    "node-mime": "^1.0.0",
-    "pause": "^0.1.0",
     "request": "2.x",
-    "send": "^0.17.1",
-    "smartcrop": "^2.0.3"
+    "smartcrop": "^2.0.3",
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "after": "^0.8.1",
-    "chai": "^1.9.1",
-    "connect": "^3.7.0",
-    "express": "^4.17.1",
-    "istanbul": "^0.3.2",
+    "chai": "^4.2.0",
     "jshint": "^2.12.0",
     "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
     "request-image-size": "^1.2.2",
     "should": "^4.4.4"
   },
