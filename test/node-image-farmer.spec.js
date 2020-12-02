@@ -9,7 +9,7 @@ describe('Images in filesystem', function() {
     it('should return 404 for missing files', function (done) {
         request.get('http://localhost:3000/content/smart/medium/fakefile.jpg', function (err, res, body){
             expect(res.statusCode).to.equal(404);
-            expect(res.body).to.equal('Not Found!');
+            expect(res.body).to.equal('Not Found! Couldn\'t read the file.');
             done();
         });
     });
@@ -73,16 +73,20 @@ describe('Images from URL', function(){
     it('should return 404 for missing files', function (done) {
         request.get('http://localhost:3000/content/smart/medium/?base64=aHR0cDovL2dvb2dsZS5jb20vZmFrZS5qcGc=', function (err, res, body){
             expect(res.statusCode).to.equal(404);
-            expect(res.body).to.equal('Not Found!');
+            expect(res.body).to.equal('Not Found! Couldn\'t retrieve the file from http://google.com/fake.jpg');
             done();
         });
     });
 
     it('should return a modified image', function (done) {
-        size('http://localhost:3000/content/smart/medium/?base64=aHR0cDovL3d3dy5wdWJsaWNkb21haW5waWN0dXJlcy5uZXQvcGljdHVyZXMvMTAwMDAvdmVsa2EvMTA4MS0xMjQwMzI3MzE3cGMzcS5qcGc=', function(err, dimensions, length) {
+        size('http://localhost:3000/content/smart/medium/?base64=aHR0cHM6Ly91cGxvYWQud2lraW1lZGlhLm9yZy93aWtpcGVkaWEvY29tbW9ucy90aHVtYi8zLzNlL0VpbnN0ZWluXzE5MjFfYnlfRl9TY2htdXR6ZXJfLV9yZXN0b3JhdGlvbi5qcGcvMTAyNHB4LUVpbnN0ZWluXzE5MjFfYnlfRl9TY2htdXR6ZXJfLV9yZXN0b3JhdGlvbi5qcGc=', function(err, dimensions, length) {
             expect(dimensions.width).to.be.lessThan(3000);
             expect(dimensions.height).to.be.lessThan(2000);
             done();
         });
+    });
+
+    it('closes the app', () => {
+        process.exit();
     });
 });
