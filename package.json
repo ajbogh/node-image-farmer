@@ -46,6 +46,7 @@
   "dependencies": {
     "canvas": "^2.6.1",
     "debug": "^2.6.9",
+    "express": "^4.17.1",
     "fs-extra": "^9.0.1",
     "gm": "^1.23.1",
     "image-size": "^0.9.3",
@@ -53,18 +54,16 @@
     "lodash": "^4.17.20",
     "mime": "^1.6.0",
     "minimist": "^1.2.5",
-    "mkdirp": "0.x",
     "moment": "^2.29.1",
     "request": "2.x",
-    "smartcrop": "^2.0.3",
-    "express": "^4.17.1"
+    "smartcrop": "^2.0.3"
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "http-image-size": "^1.1.0",
     "jshint": "^2.12.0",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0",
-    "request-image-size": "^1.2.2",
     "should": "^4.4.4"
   },
   "engines": {

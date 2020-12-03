@@ -2,7 +2,7 @@ var assert = require('chai').assert;
 var expect = require('chai').expect;
 var app = require('../app/app');
 var request = require('request');
-var size = require('request-image-size');
+var size = require('http-image-size');
 
 
 describe('Images in filesystem', function() {
@@ -79,9 +79,10 @@ describe('Images from URL', function(){
     });
 
     it('should return a modified image', function (done) {
-        size('http://localhost:3000/content/smart/medium/?base64=aHR0cHM6Ly91cGxvYWQud2lraW1lZGlhLm9yZy93aWtpcGVkaWEvY29tbW9ucy90aHVtYi8zLzNlL0VpbnN0ZWluXzE5MjFfYnlfRl9TY2htdXR6ZXJfLV9yZXN0b3JhdGlvbi5qcGcvMTAyNHB4LUVpbnN0ZWluXzE5MjFfYnlfRl9TY2htdXR6ZXJfLV9yZXN0b3JhdGlvbi5qcGc=', function(err, dimensions, length) {
-            expect(dimensions.width).to.be.lessThan(3000);
-            expect(dimensions.height).to.be.lessThan(2000);
+        size('http://localhost:3000/content/smart/medium/?base64=aHR0cHM6Ly9ob21lcGFnZXMuY2FlLndpc2MuZWR1L35lY2U1MzMvaW1hZ2VzL2ZyeW1pcmUucG5n=', function(err, dimensions, length) {
+            console.log(err);
+            expect(dimensions.width).to.be.lessThan(1118);
+            expect(dimensions.height).to.be.lessThan(1105);
             done();
         });
     });
