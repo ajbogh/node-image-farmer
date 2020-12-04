@@ -35,7 +35,7 @@
   "scripts": {
     "app": "node app/app.js",
     "prepublish": "npm prune",
-    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "test": "mocha --reporter spec --bail --check-leaks -t 5000 test/",
     "pretest": "jshint lib",
     "test-cov": "nyc --reporter=lcov npm run test",
     "test-travis": "nyc --reporter=lcovonly --reporter text npm run test",
@@ -44,6 +44,7 @@
     "install-redhat-deps": "yum install GraphicsMagick cairo cairo-devel libjpeg-devel cairomm-devel libjpeg-turbo-devel pango pango-devel pangomm pangomm-devel giflib-devel"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "canvas": "^2.6.1",
     "debug": "^2.6.9",
     "express": "^4.17.1",
@@ -55,7 +56,6 @@
     "mime": "^1.6.0",
     "minimist": "^1.2.5",
     "moment": "^2.29.1",
-    "request": "2.x",
     "smartcrop": "^2.0.3"
   },
   "devDependencies": {

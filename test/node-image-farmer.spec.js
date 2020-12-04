@@ -1,16 +1,18 @@
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 var app = require('../app/app');
-var request = require('request');
+var request = require('axios');
 var size = require('http-image-size');
 
 
 describe('Images in filesystem', function() {
-    it('should return 404 for missing files', function (done) {
-        request.get('http://localhost:3000/content/smart/medium/fakefile.jpg', function (err, res, body){
-            expect(res.statusCode).to.equal(404);
-            expect(res.body).to.equal('Not Found! Couldn\'t read the file.');
-            done();
+    it('should return 404 for missing files', async function () {
+        const url = 'http://localhost:3000/content/smart/medium/fakefile.jpg';
+        return request.get(url).then(function (res){
+            assert(new Error('Should not have gotten a fake file.'));
+        }).catch((e) => {
+            expect(e.response.status).to.equal(404);
+            expect(e.response.data).to.equal('Not Found! Couldn\'t read the file.');
         });
     });
 
@@ -70,17 +72,17 @@ describe('Images in filesystem', function() {
 });
 
 describe('Images from URL', function(){
-    it('should return 404 for missing files', function (done) {
-        request.get('http://localhost:3000/content/smart/medium/?base64=aHR0cDovL2dvb2dsZS5jb20vZmFrZS5qcGc=', function (err, res, body){
-            expect(res.statusCode).to.equal(404);
-            expect(res.body).to.equal('Not Found! Couldn\'t retrieve the file from http://google.com/fake.jpg');
-            done();
+    it('should return 404 for missing files', async function () {
+        return request.get('http://localhost:3000/content/smart/medium/?base64=aHR0cDovL2dvb2dsZS5jb20vZmFrZS5qcGc=').then(function (res){
+            assert(new Error('Should not have gotten a fake file.'));
+        }).catch((e) => {
+            expect(e.response.status).to.equal(404);
+            expect(e.response.data).to.equal('Not Found! Couldn\'t retrieve the file from http://google.com/fake.jpg');
         });
     });
 
     it('should return a modified image', function (done) {
         size('http://localhost:3000/content/smart/medium/?base64=aHR0cHM6Ly9ob21lcGFnZXMuY2FlLndpc2MuZWR1L35lY2U1MzMvaW1hZ2VzL2ZyeW1pcmUucG5n=', function(err, dimensions, length) {
-            console.log(err);
             expect(dimensions.width).to.be.lessThan(1118);
             expect(dimensions.height).to.be.lessThan(1105);
             done();
