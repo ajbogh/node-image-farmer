@@ -58,3 +58,15 @@ var server = app.listen(argv.port || appConfig.port, function () {
 
     debug('node-image-farmer app listening at http://%s:%s%s', host, port, appConfig.baseDirectory);
 });
+
+// Do graceful shutdown
+function shutdown() {
+    console.log('node-image-farmer: SIGTERM signal received: closing HTTP server');
+    server.close(() => {
+        console.log('node-image-farmer: HTTP server closed')
+    });
+}
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
+process.on('exit', shutdown);
