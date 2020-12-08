@@ -39,7 +39,7 @@
     "pretest": "jshint lib",
     "test-cov": "nyc --reporter=lcov npm run test",
     "test-travis": "nyc --reporter=lcovonly --reporter text npm run test",
-    "install-ubuntu-deps": "apt-get install graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
+    "install-ubuntu-deps": "apt install -y graphicsmagick libcairo2-dev libjpeg-dev libgif-dev --fix-missing",
     "install-mac-deps": "brew install graphicsmagick && ( xcode-select --install || echo 'xcode may have already been installed.' ) && brew install pkgconfig pixman libjpeg giflib cairo",
     "install-redhat-deps": "yum install GraphicsMagick cairo cairo-devel libjpeg-devel cairomm-devel libjpeg-turbo-devel pango pango-devel pangomm pangomm-devel giflib-devel"
   },
