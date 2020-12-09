@@ -56,7 +56,9 @@ var server = app.listen(argv.port || appConfig.port, function () {
     var host = server.address().address;
     var port = server.address().port;
 
-    debug('node-image-farmer app listening at http://%s:%s%s', host, port, appConfig.baseDirectory);
+    const message = 'node-image-farmer listening at http://%s:%s%s'
+    console.log(message, host, port, appConfig.baseDirectory);
+    debug(message, host, port, appConfig.baseDirectory);
 });
 
 // Do graceful shutdown

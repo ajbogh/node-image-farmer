@@ -87,7 +87,7 @@ $ npm install
 
 ## Serving local images
 
-You can serve images from your own server by creating a symlink under app/images
+You can serve images from your own server by creating a symlink under `app/images`
 
 ```
 $ cd app
@@ -95,6 +95,13 @@ $ ln -s images /path/to/your/images/folder
 ```
 
 You can navigate your images folder similar to how you normally would with a URL:
+
+You can also configure a custom images directory using the appConfig `imageDirectory` option. 
+This directory can be relative to the `app` directory. For instance, if this directory is outside of the node-image-farmer directory
+then the `imageDirectory` path could be `../../OtherDirectory/images`, or `../../../opt/images` (where the third `../` is the root of the file system).
+
+`imageDirectory` can also be passed in as a node parameter, such as `node app/app.js --imageDirectory`. This will override both `appConfig.imageDirectory` 
+and the default images folder.
 
 ```
 http://localhost:3000/content/smart/small/my/subfolder/myImage.jpg
