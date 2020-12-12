@@ -21,6 +21,7 @@ var extensionMimeMapping = {
 }
 
 app.get(appConfig.baseDirectory+"/*", function (req, res) {
+    debug(`Received request for ${req.url}`);
     //decode URL
     var urlOptions = urlDecoder.processRequest(req, appConfig.presets);
 
@@ -50,6 +51,11 @@ app.get(appConfig.baseDirectory+"/*", function (req, res) {
         debug(err);
         res.end(err.message);
     });
+});
+
+app.get('*', (req, res) => {
+    debug(`Received request for ${req.url}`);
+    res.status(404).send(`${req.url} not found`);
 });
 
 var server = app.listen(argv.port || appConfig.port, function () {
